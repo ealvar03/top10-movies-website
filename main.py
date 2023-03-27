@@ -7,7 +7,7 @@ from wtforms.validators import DataRequired
 import requests
 
 
-API_KEY = "Your API Key"
+API_KEY = ""
 MOVIES_SEARCH_ENDPOINT = f"https://api.themoviedb.org/3/search/movie?api_key={API_KEY}"
 MOVIES_ID_ENDPOINT = "https://api.themoviedb.org/3/movie/"
 MOVIES_IMG_URL="https://image.tmdb.org/t/p/w300_and_h450_bestv2"
@@ -51,7 +51,7 @@ with app.app_context():
 # Home page with movie list
 @app.route("/")
 def home():
-    all_movies = db.session.query(Movie).all()
+    all_movies = Movie.query.order_by(Movie.rating).all()
     for i in range(len(all_movies)):
         # This line gives each movie a new ranking reversed from their order in all_movies
         all_movies[i].ranking = len(all_movies) - i
